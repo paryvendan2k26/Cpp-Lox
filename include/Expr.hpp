@@ -1,44 +1,54 @@
 #pragma once
 
-#include "Token.hpp"
-
 #include <memory>
 #include <string>
-#include <variant>
 #include <utility>
+#include <variant>
+
+#include "Token.hpp"
+
+
+using LiteralValue = std::variant<
+    std::monostate,
+    double,
+    std::string,
+    bool
+>;
+
 
 class Expr {
 public:
     virtual ~Expr() = default;
 };
 
-class Binary: public Exper{
-    public:
+
+class Binary : public Expr {
+public:
     Binary(
         std::unique_ptr<Expr> left,
         Token operatorToken,
         std::unique_ptr<Expr> right
     )
-    : left(left),
-    operatorToken(operatorToken),
-    right(right){
-
+        : left(std::move(left)),
+          operatorToken(std::move(operatorToken)),
+          right(std::move(right)) {
     }
 
-        std::unique_ptr<Expr> left;
-        Token operatorToken;
-        std::unique_ptr<Expr> right;
-
-
+    std::unique_ptr<Expr> left;
+    Token operatorToken;
+    std::unique_ptr<Expr> right;
 };
+
 
 class Grouping : public Expr {
 public:
     Grouping(std::unique_ptr<Expr> expression)
-        : expression(expression) {}
+        : expression(std::move(expression)) {
+    }
 
     std::unique_ptr<Expr> expression;
 };
+
 
 class Literal : public Expr {
 public:
@@ -49,11 +59,16 @@ public:
     LiteralValue value;
 };
 
+
 class Unary : public Expr {
 public:
-    Unary(Token operatorToken, std::unique_ptr<Expr> right)
-        : operatorToken(operatorToken),
-          right(right) {}
+    Unary(
+        Token operatorToken,
+        std::unique_ptr<Expr> right
+    )
+        : operatorToken(std::move(operatorToken)),
+          right(std::move(right)) {
+    }
 
     Token operatorToken;
     std::unique_ptr<Expr> right;
