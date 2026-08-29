@@ -1,4 +1,5 @@
 #include "Parser.hpp"
+#include "Lox.hpp"
 
 Parser::Parser(const std::vector<Token>& tokens)
     :tokens(tokens){
@@ -17,7 +18,7 @@ const Token& Parser::previous(){
     return tokens[current-1];
 }
 
-const TOken& Parser::advance(){
+const Token& Parser::advance(){
     if(!isAtEnd()){
         current++;
     }
@@ -43,4 +44,45 @@ bool Parser::match(TokenType type) {
 
     advance();
     return true;
+}
+
+std::unique_ptr<Expr> Parser::primary(){
+    if(match(TokenType::FALSE)){
+        return std::make_unique<Literal>(false);
+    }
+
+    if (match(TokenType::TRUE)) {
+        return std::make_unique<Literal>(true);
+    }
+
+    if (match(TokenType::NIL)) {
+        return std::make_unique<Literal>(nullptr);
+    }
+
+    if (match(TokenType::NUMBER)) {
+        return std::make_unique<Literal>(previous().literal);
+    }
+
+    if (match(TokenType::STRING)) {
+        return std::make_unique<Literal>(previous().literal);
+    }
+
+    return nullptr;
+}
+
+Token Parser::consume(TokenType type, const std::string& message) {
+    if (check(type)) {
+        return advance();
+    }
+
+    throw error(peek(), message);
+}
+
+
+Parser::ParseError Parser::error(
+    const Token& token,
+    const std::string& message
+) {
+    Lox::error(token.line, message);
+    return ParseError();
 }

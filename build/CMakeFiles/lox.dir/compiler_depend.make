@@ -387,7 +387,8 @@ CMakeFiles/lox.dir/src/Parser.cpp.o: ../src/Parser.cpp \
   ../include/Expr.hpp \
   /usr/include/c++/11/variant \
   /usr/include/c++/11/bits/enable_special_members.h \
-  /usr/include/c++/11/bits/parse_numbers.h
+  /usr/include/c++/11/bits/parse_numbers.h \
+  ../include/Lox.hpp
 
 CMakeFiles/lox.dir/src/Scanner.cpp.o: ../src/Scanner.cpp \
   /usr/include/stdc-predef.h \

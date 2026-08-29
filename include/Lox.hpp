@@ -25,4 +25,5 @@ private:
     );
 
     friend class Scanner;
+    friend class Parser;
 };

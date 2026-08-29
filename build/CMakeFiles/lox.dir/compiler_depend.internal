@@ -390,6 +390,7 @@ CMakeFiles/lox.dir/src/Parser.cpp.o
  /usr/include/c++/11/variant
  /usr/include/c++/11/bits/enable_special_members.h
  /usr/include/c++/11/bits/parse_numbers.h
+ /home/study/projects/cpp-lox/include/Lox.hpp
 
 CMakeFiles/lox.dir/src/Scanner.cpp.o
  /home/study/projects/cpp-lox/src/Scanner.cpp

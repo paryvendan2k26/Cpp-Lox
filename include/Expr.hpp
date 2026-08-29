@@ -9,10 +9,10 @@
 
 
 using LiteralValue = std::variant<
-    std::monostate,
+    std::nullptr_t,
+    bool,
     double,
-    std::string,
-    bool
+    std::string
 >;
 
 

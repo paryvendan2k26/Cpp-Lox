@@ -155,4 +155,5 @@ CMakeFiles/lox.dir/src/Parser.cpp.o: \
  /home/study/projects/cpp-lox/include/Expr.hpp \
  /usr/include/c++/11/variant \
  /usr/include/c++/11/bits/enable_special_members.h \
- /usr/include/c++/11/bits/parse_numbers.h
+ /usr/include/c++/11/bits/parse_numbers.h \
+ /home/study/projects/cpp-lox/include/Lox.hpp
