@@ -86,3 +86,29 @@ Parser::ParseError Parser::error(
     Lox::error(token.line, message);
     return ParseError();
 }
+
+std::unique_ptr<Expr> Parser::expression() {
+    return equality();
+}
+
+std::unique_ptr<Expr> Parser::equality() {
+
+    auto expr = comparison();
+
+    while (
+        match(TokenType::BANG_EQUAL) ||
+        match(TokenType::EQUAL_EQUAL)
+    ) {
+        Token operatorToken = previous();
+
+        auto right = comparison();
+
+        expr = std::make_unique<Binary>(
+            std::move(expr),
+            operatorToken,
+            std::move(right)
+        );
+    }
+
+    return expr;
+}
