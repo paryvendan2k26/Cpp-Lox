@@ -112,3 +112,17 @@ std::unique_ptr<Expr> Parser::equality() {
 
     return expr;
 }
+
+std::unique_ptr<Expr> Parser::unary() {
+    if (match(TokenType::BANG) || match(TokenType::MINUS)) {
+        Token op = previous();
+        std::unique_ptr<Expr> right = unary();
+
+        return std::make_unique<Unary>(
+            op,
+            std::move(right)
+        );
+    }
+
+    return primary();
+}

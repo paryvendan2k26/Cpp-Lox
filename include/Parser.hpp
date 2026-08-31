@@ -30,7 +30,7 @@ private:
     std::unique_ptr<Expr> primary();
     std::unique_ptr<Expr> expression();
     std::unique_ptr<Expr> equality();
-    std::unique_ptr<Expr> equality();
+    std::unique_ptr<Expr> unary();
 
     Token consume(TokenType type, const std::string& message);
 
