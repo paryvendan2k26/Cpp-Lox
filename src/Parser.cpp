@@ -126,3 +126,62 @@ std::unique_ptr<Expr> Parser::unary() {
 
     return primary();
 }
+
+std::unique_ptr<Expr> Parser::factor() {
+    std::unique_ptr<Expr> expr = unary();
+
+    while (match(TokenType::SLASH) || match(TokenType::STAR)) {
+        Token op = previous();
+        std::unique_ptr<Expr> right = unary();
+
+        expr = std::make_unique<Binary>(
+            std::move(expr),
+            op,
+            std::move(right)
+        );
+    }
+
+    return expr;
+}
+
+std::unique_ptr<Expr> Parser::comparison() {
+    auto expr = term();
+
+    while (
+        match(TokenType::GREATER) ||
+        match(TokenType::GREATER_EQUAL) ||
+        match(TokenType::LESS) ||
+        match(TokenType::LESS_EQUAL)
+    ) {
+        Token op = previous();
+        auto right = term();
+
+        expr = std::make_unique<Binary>(
+            std::move(expr),
+            op,
+            std::move(right)
+        );
+    }
+
+    return expr;
+}
+
+std::unique_ptr<Expr> Parser::term() {
+    auto expr = factor();
+
+    while (
+        match(TokenType::MINUS) ||
+        match(TokenType::PLUS)
+    ) {
+        Token op = previous();
+        auto right = factor();
+
+        expr = std::make_unique<Binary>(
+            std::move(expr),
+            op,
+            std::move(right)
+        );
+    }
+
+    return expr;
+}
